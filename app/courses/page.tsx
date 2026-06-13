@@ -113,7 +113,7 @@ export default function CoursesPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent text-gray-900 bg-white"
                     placeholder="e.g., Pebble Beach"
                   />
                 </div>
@@ -127,7 +127,7 @@ export default function CoursesPage() {
                     min="1"
                     value={formData.par}
                     onChange={(e) => setFormData({ ...formData, par: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent text-gray-900 bg-white"
                   />
                 </div>
                 <div>
@@ -137,7 +137,7 @@ export default function CoursesPage() {
                   <select
                     value={formData.holes}
                     onChange={(e) => setFormData({ ...formData, holes: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600 focus:border-transparent text-gray-900 bg-white"
                   >
                     <option value={9}>9 holes</option>
                     <option value={18}>18 holes</option>
@@ -151,7 +151,7 @@ export default function CoursesPage() {
                     setShowAddModal(false);
                     setFormData({ name: '', par: 72, holes: 18 });
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
                 >
                   Cancel
                 </button>
