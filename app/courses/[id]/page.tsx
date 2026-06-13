@@ -2,15 +2,16 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useCourses } from '@/hooks/useCourses';
 import { useRounds } from '@/hooks/useRounds';
 import Link from 'next/link';
 
-export default function CourseDetailPage({ params }: { params: { id: string } }) {
+export default function CourseDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const { user, loading: authLoading } = useAuth();
   const { courses, loading: coursesLoading } = useCourses();
-  const { rounds, loading: roundsLoading, startRound } = useRounds(params.id);
+  const { rounds, loading: roundsLoading, startRound } = useRounds(id);
   const router = useRouter();
   const [course, setCourse] = useState<any>(null);
 
@@ -22,14 +23,14 @@ export default function CourseDetailPage({ params }: { params: { id: string } })
 
   useEffect(() => {
     if (!coursesLoading) {
-      const foundCourse = courses.find((c) => c.id === params.id);
+      const foundCourse = courses.find((c) => c.id === id);
       if (foundCourse) {
         setCourse(foundCourse);
       } else if (!coursesLoading) {
         router.push('/courses');
       }
     }
-  }, [courses, coursesLoading, params.id, router]);
+  }, [courses, coursesLoading, id, router]);
 
   const handleStartRound = async () => {
     if (!course) return;

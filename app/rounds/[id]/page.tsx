@@ -2,11 +2,12 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useRounds } from '@/hooks/useRounds';
 import Link from 'next/link';
 
-export default function RoundPage({ params }: { params: { id: string } }) {
+export default function RoundPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const { user, loading: authLoading } = useAuth();
   const { rounds, loading: roundsLoading, updateRoundScore, completeRound } = useRounds();
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function RoundPage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (!roundsLoading) {
-      const foundRound = rounds.find((r) => r.id === params.id);
+      const foundRound = rounds.find((r) => r.id === id);
       if (foundRound) {
         setRound(foundRound);
         const firstUnscored = foundRound.scores.findIndex((s: number) => s === 0);
@@ -32,7 +33,7 @@ export default function RoundPage({ params }: { params: { id: string } }) {
         router.push('/courses');
       }
     }
-  }, [rounds, roundsLoading, params.id, router]);
+  }, [rounds, roundsLoading, id, router]);
 
   const handleScoreUpdate = async (holeIndex: number, score: number) => {
     if (!round || score < 1) return;
