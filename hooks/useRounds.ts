@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, Timestamp, orderBy } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, updateDoc, doc, Timestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { useAuth } from '@/contexts/AuthContext';
 import { Round } from '@/types';
@@ -16,27 +16,26 @@ export function useRounds(courseId?: string) {
       return;
     }
 
-    let q = query(
+    // Simple query - just get all rounds for this user
+    const q = query(
       collection(db, 'rounds'),
-      where('userId', '==', user.uid),
-      orderBy('date', 'desc')
+      where('userId', '==', user.uid)
     );
 
-    if (courseId) {
-      q = query(
-        collection(db, 'rounds'),
-        where('userId', '==', user.uid),
-        where('courseId', '==', courseId),
-        orderBy('date', 'desc')
-      );
-    }
-
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const roundsData = snapshot.docs.map((doc) => ({
+      let roundsData = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
         date: doc.data().date?.toDate() || new Date(),
       })) as Round[];
+
+      // Filter by courseId in memory if needed
+      if (courseId) {
+        roundsData = roundsData.filter(r => r.courseId === courseId);
+      }
+
+      // Sort by date descending in memory
+      roundsData.sort((a, b) => b.date.getTime() - a.date.getTime());
 
       setRounds(roundsData);
       setLoading(false);
