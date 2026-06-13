@@ -1,27 +1,94 @@
+'use client';
+
 import { apps } from '@/config/apps';
+import { useState } from 'react';
 
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-6xl mx-auto px-6 py-12">
-        <h1 className="text-3xl font-light text-gray-900 mb-12">Dashboard</h1>
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {apps.map((app) => (
+  return (
+    <div className="min-h-screen relative">
+      {/* Animated grid background */}
+      <div className="grid-background" />
+
+      {/* Scan line effect */}
+      <div className="scan-line" />
+
+      <main className="relative z-10 max-w-6xl mx-auto px-6 py-16">
+        <div className="mb-16">
+          <h1 className="text-5xl font-light text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 mb-2">
+            Dashboard
+          </h1>
+          <div className="h-px w-32 bg-gradient-to-r from-indigo-500 to-transparent" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {apps.map((app, index) => (
             <a
               key={app.name}
               href={app.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block bg-white border border-gray-200 rounded-lg p-6 hover:border-gray-400 hover:shadow-sm transition-all"
+              className="holo-card group block rounded-xl p-6 iridescent"
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              style={{
+                animationDelay: `${index * 0.1}s`,
+              }}
             >
               <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-lg ${app.color} flex-shrink-0`} />
+                <div className="relative">
+                  <div
+                    className={`w-14 h-14 rounded-lg ${app.color} flex-shrink-0 icon-glow flex items-center justify-center relative overflow-hidden`}
+                  >
+                    {/* Geometric pattern overlay */}
+                    <div className="absolute inset-0 opacity-20">
+                      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <pattern id={`pattern-${index}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                          <circle cx="2" cy="2" r="1" fill="white" />
+                        </pattern>
+                        <rect width="100%" height="100%" fill={`url(#pattern-${index})`} />
+                      </svg>
+                    </div>
+
+                    {/* Corner accents */}
+                    <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-white opacity-50" />
+                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-white opacity-50" />
+                  </div>
+
+                  {/* Orbiting dot */}
+                  {hoveredIndex === index && (
+                    <div
+                      className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                      style={{
+                        animation: 'spin 3s linear infinite',
+                      }}
+                    >
+                      <div className="absolute top-0 left-1/2 w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-lg shadow-indigo-400/50" />
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-medium text-gray-900 group-hover:text-gray-700 transition-colors">
+                  <h2 className="text-lg font-medium text-gray-100 group-hover:text-white transition-colors mb-1">
                     {app.name}
                   </h2>
-                  <p className="text-sm text-gray-500 mt-1">{app.description}</p>
+                  <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                    {app.description}
+                  </p>
+
+                  {/* Status indicator */}
+                  <div className="flex items-center gap-2 mt-3">
+                    <div className="w-2 h-2 rounded-full bg-green-400 shadow-lg shadow-green-400/50 animate-pulse" />
+                    <span className="text-xs text-gray-500 uppercase tracking-wider">Active</span>
+                  </div>
+                </div>
+
+                {/* Arrow indicator */}
+                <div className="text-gray-600 group-hover:text-indigo-400 transition-all duration-300 group-hover:translate-x-1">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 4L13 10L7 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
               </div>
             </a>
