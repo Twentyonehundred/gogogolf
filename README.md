@@ -19,6 +19,7 @@ Edit `config/apps.ts`:
   url: 'https://app-url.com',
   description: 'Brief description',
   color: 'bg-blue-600', // Tailwind color class
+  icon: 'AN', // 1-2 letter abbreviation
 }
 ```
 

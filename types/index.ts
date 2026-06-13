@@ -3,4 +3,5 @@ export interface AppTile {
   url: string;
   description: string;
   color: string;
+  icon: string;
 }

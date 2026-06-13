@@ -17,7 +17,7 @@ export default function Home() {
       <main className="relative z-10 max-w-6xl mx-auto px-6 py-16">
         <div className="mb-16">
           <h1 className="text-5xl font-light text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 mb-2">
-            Dashboard
+            CS
           </h1>
           <div className="h-px w-32 bg-gradient-to-r from-indigo-500 to-transparent" />
         </div>
@@ -41,19 +41,10 @@ export default function Home() {
                   <div
                     className={`w-14 h-14 rounded-lg ${app.color} flex-shrink-0 icon-glow flex items-center justify-center relative overflow-hidden`}
                   >
-                    {/* Geometric pattern overlay */}
-                    <div className="absolute inset-0 opacity-20">
-                      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                        <pattern id={`pattern-${index}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                          <circle cx="2" cy="2" r="1" fill="white" />
-                        </pattern>
-                        <rect width="100%" height="100%" fill={`url(#pattern-${index})`} />
-                      </svg>
-                    </div>
-
-                    {/* Corner accents */}
-                    <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-white opacity-50" />
-                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-white opacity-50" />
+                    {/* Letter icon */}
+                    <span className="text-2xl font-bold text-white relative z-10">
+                      {app.icon}
+                    </span>
                   </div>
 
                   {/* Orbiting dot */}
@@ -76,12 +67,6 @@ export default function Home() {
                   <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                     {app.description}
                   </p>
-
-                  {/* Status indicator */}
-                  <div className="flex items-center gap-2 mt-3">
-                    <div className="w-2 h-2 rounded-full bg-green-400 shadow-lg shadow-green-400/50 animate-pulse" />
-                    <span className="text-xs text-gray-500 uppercase tracking-wider">Active</span>
-                  </div>
                 </div>
 
                 {/* Arrow indicator */}

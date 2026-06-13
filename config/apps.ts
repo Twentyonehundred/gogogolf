@@ -6,6 +6,7 @@ export const apps: AppTile[] = [
     url: 'https://example.com',
     description: 'Description',
     color: 'bg-blue-600',
+    icon: 'AN',
   },
   // Add more apps here
 ];
